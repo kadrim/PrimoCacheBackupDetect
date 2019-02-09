@@ -3,13 +3,13 @@
 #AutoIt3Wrapper_Res_Fileversion=0.0.1.0
 
 #include <AutoItConstants.au3>
-#include <TrayConstants.au3>;
+#include <TrayConstants.au3>
 #include <MsgBoxConstants.au3>
 #include "_ProcessListProperties.au3"
 
-Opt("TrayMenuMode", 3);
+Opt("TrayMenuMode", 3)
 
-Global Const $iconFile = "shell32.dll";
+Global Const $iconFile = "shell32.dll"
 Global Const $idIconError = -110
 Global Const $idIconRunning = -138
 Global Const $idIconPaused = -245
@@ -190,7 +190,6 @@ Func InstallTask()
 EndFunc
 
 Func UninstallTask()
-	;RunWait('schtasks.exe /End /TN ' & $sTaskFullName, '', @SW_HIDE)
 	If RunWait('schtasks.exe /Delete /F /TN ' & $sTaskFullName, '', @SW_HIDE) <> 0 Then Return False
 	Return True
 EndFunc
