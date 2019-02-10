@@ -13,6 +13,8 @@ The Program **PrimoCacheBackupDetect** will run in the background and periodical
 If that is true, the Program will pause the PrimoCache via CLI and resume it, as soon as the backup-process stops or falls again below the above mentioned threshold for memory consumption.
 
 ## Usage
+**Important** The PrimoCache GUI must not be running because the PrimoCache CLI cannot perform its tasks otherwise!
+
 Simply download a current release and run the .exe file. The Program will instantly startup and dock itself within your systray.
 With default Settings it is configured to detect *Ashampoo Backup 2018* as this is the software I currently use.
 
