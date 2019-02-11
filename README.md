@@ -1,8 +1,11 @@
 # PrimoCache Backup-Detect
 Periodically checks for a running backup-process and pauses PrimoCache during the backup, so that the cache will not be tainted by reading the whole disk
 
+## Download
+Want to get started immediately? Just go to the release Section and [download the latest release](/releases/latest)
+
 ## What?
-While PrimoCache tries to Cache frequently used data and leave the seldomly accessed data on a slow spinning disk, running backups can interfere with this logic. Many backup Programs cannot *read around* the cache so the whole disk while be read while performing a backup.
+While PrimoCache tries to Cache frequently used data and leave the seldomly accessed data on a slow spinning disk, running backups can interfere with this logic. Many backup Programs cannot *read around* the cache so the whole disk will be read while performing a backup.
 
 This will ultimately lead to many data in the Cache which should not be there. So one has to manually pause the Cache while the backup is running and resume it once that is finished.
 
@@ -13,7 +16,7 @@ The Program **PrimoCacheBackupDetect** will run in the background and periodical
 If that is true, the Program will pause the PrimoCache via CLI and resume it, once the backup-process stops or falls again below the above mentioned threshold for memory consumption.
 
 ## Usage
-**Important The PrimoCache GUI must not be running because the PrimoCache CLI cannot perform its tasks otherwise!**
+**Important: The PrimoCache GUI must not be running because the PrimoCache CLI cannot perform its tasks otherwise!**
 
 Simply download a current release and run the .exe file. The Program will instantly startup and dock itself within your systray.
 With default Settings it is configured to detect *Ashampoo Backup 2018* as this is the Backup-Software I currently use.
