@@ -2,7 +2,7 @@
 Periodically checks for a running backup-process and pauses PrimoCache during the backup, so that the cache will not be tainted by reading the whole disk
 
 ## Download
-Want to get started immediately? Just go to the release Section and [download the latest release](https://github.com/kadrim/PrimoCacheBackupDetect/releases/latest)
+Want to get started immediately? Just go to the release Section and [**download the latest release**](https://github.com/kadrim/PrimoCacheBackupDetect/releases/latest)
 
 ## What?
 While PrimoCache tries to Cache frequently used data and leave the seldomly accessed data on a slow spinning disk, running backups can interfere with this logic. Many backup Programs cannot *read around* the cache so the whole disk will be read while performing a backup.
