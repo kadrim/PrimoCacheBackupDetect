@@ -26,7 +26,7 @@ Place the provided .ini File in the same directory as the .exe and change it acc
 
 Option | Default-Value | Description
 ------ | ------------- | -----------
-Interval | 10000 | Time in milliseconds between each check
+Interval | 60000 | Time in milliseconds between each check
 Process | backupService-ab.exe | The name of the backup-process (case-sensitive)
 Threshold | 50000000 | If this is set higher than **0** the backup-process must also have a memory-footprint this large (in bytes) so the program detects a running backup
 PauseCmd | "C:\Program Files\PrimoCache\rxpcc.exe" pause -s -a | Command to be issued as soon as a running backup is detected (keep the quotation marks if the Path to the command contains spaces!)

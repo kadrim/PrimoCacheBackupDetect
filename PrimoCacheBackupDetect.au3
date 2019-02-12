@@ -23,7 +23,7 @@ PrimoCacheBackupDetect()
 
 Func ReadConfig()
 	Global Const $configFile = @ScriptDir & "\PrimoCacheBackupDetect.ini"
-	Global $configInterval = Int(IniRead($configFile, "Config", "Interval", "10000"))
+	Global $configInterval = Int(IniRead($configFile, "Config", "Interval", "60000"))
 	Global $configProcess = IniRead($configFile, "Config", "Process", "backupService-ab.exe")
 	Global $configThreshold = Int(IniRead($configFile, "Config", "Threshold", "50000000"))
 	Global $configPauseCmd = IniRead($configFile, "Config", "PauseCmd", '"C:\Program Files\PrimoCache\rxpcc.exe" pause -s -a')
