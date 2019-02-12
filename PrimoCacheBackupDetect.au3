@@ -1,6 +1,6 @@
 #NoTrayIcon
 #RequireAdmin
-#AutoIt3Wrapper_Res_Fileversion=0.0.1.0
+#AutoIt3Wrapper_Res_Fileversion=0.0.2.0
 
 #include <AutoItConstants.au3>
 #include <TrayConstants.au3>
