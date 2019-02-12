@@ -1,11 +1,15 @@
 #NoTrayIcon
 #RequireAdmin
-#AutoIt3Wrapper_Res_Fileversion=0.0.3.0
+#AutoIt3Wrapper_Res_Fileversion=0.0.4.0
 
 #include <AutoItConstants.au3>
 #include <TrayConstants.au3>
 #include <MsgBoxConstants.au3>
-#include "_ProcessListProperties.au3"
+#include <ProcessConstants.au3>
+#include <SecurityConstants.au3>
+#include <Security.au3>
+#include <WinAPI.au3>
+#include <WinAPIProc.au3>
 
 Opt("TrayMenuMode", 3)
 
@@ -52,9 +56,11 @@ Func PrimoCacheBackupDetect()
 		TraySetState($TRAY_ICONSTATE_SHOW) ; try to show the trayicon if it has not been initialized correctly on startup, due to a premature boot via scheduled tasks
 		$isRunning = 0
 		If ProcessExists($configProcess) Then ; Check if the process is running.
-			$processList = _ProcessListProperties($configProcess) ; check if the process has a memory consumption higher than the configured threshold
-			If $processList[1][7] > $configThreshold Then
-				$isRunning = 1
+			Local $pData = GetProcessDetails($configProcess)
+			If $pData <> False Then
+				If $pData[2] > $configThreshold Then
+					$isRunning = 1
+				EndIf
 			EndIf
 		EndIf
 		If $isRunning == 1 Then
@@ -124,10 +130,12 @@ Func ResumeCache()
 EndFunc
 
 Func CheckProcess()
-	If ProcessExists($configProcess) Then ; Check if the process is running.
-		$processList = _ProcessListProperties($configProcess) ; check if the process has a memory consumption higher than the configured threshold
-		MsgBox($MB_SYSTEMMODAL, "Process-Details", $processList[1][0] & @CRLF & "PID: " & $processList[1][1] & @CRLF & "PPID: " & $processList[1][2] & @CRLF & "OWNER: " & $processList[1][3] & @CRLF & "PRIORITY: " & $processList[1][4] & @CRLF & "PATH: " & $processList[1][5] & @CRLF &"CPU: " & $processList[1][6] & @CRLF &"MEMORY: " & $processList[1][7] & @CRLF &"CREATION: " & $processList[1][8] & @CRLF &"CLI: " & $processList[1][9])
-		If $processList[1][7] > $configThreshold Then
+	If ProcessExists($configProcess) Then
+		Local $pData = GetProcessDetails($configProcess)
+		If $pData == False Then Return False
+		
+		MsgBox($MB_SYSTEMMODAL, "Process-Details", $configProcess & @CRLF & "number of page faults: " & $pData[0] & @CRLF & "The peak working set size, in bytes: " & $pData[1] & @CRLF & "current working set size, in bytes: " & $pData[2] & @CRLF & "peak paged pool usage, in bytes: " & $pData[3] & @CRLF & "current paged pool usage, in bytes: " & $pData[4] & @CRLF & "peak nonpaged pool usage, in bytes: " & $pData[5] & @CRLF & "current nonpaged pool usage, in bytes: " & $pData[6] & @CRLF & "current space allocated for the pagefile, in bytes: " & $pData[7] & @CRLF & "peak space allocated for the pagefile, in bytes: " & $pData[8] & @CRLF & "current amount of memory that cannot be shared with other processes, in bytes: " & $pData[9])
+		If $pData[2] > $configThreshold Then
 			MsgBox($MB_SYSTEMMODAL, "Threshold reached", "The process " & $configProcess & " has reached the configured Threshold of " & $configThreshold & " Bytes.")
 		Else
 			MsgBox($MB_SYSTEMMODAL, "Threshold not reached", "The process " & $configProcess & " has not reached the configured Threshold of " & $configThreshold & " Bytes.")
@@ -205,5 +213,53 @@ Func RenameTrayTask()
 		TrayItemSetText($idTask, "Remove Autostart")
 	Else
 		TrayItemSetText($idTask, "Set Autostart on Boot")
+	EndIf
+EndFunc
+
+Func GetProcessDetails($sProcess = "")
+	If ProcessExists($sProcess) Then ; Check if the process is running.
+		; Open the current process in ALL ACCESS mode, with no inheritance for child processes.
+		Local $hProcess = _WinAPI_OpenProcess($PROCESS_ALL_ACCESS, False, @AutoItPID)
+		; If the function failed, return False.
+		If $hProcess = 0 Then Return False
+
+		; Open the access token associated with the current process (an access token contains
+		; the security information for a logon session.
+		; What matter to us is the privileges contained by this token.
+		Local $hToken = _Security__OpenProcessToken($hProcess, $TOKEN_ALL_ACCESS)
+		; If the function failed, return False.
+		If $hToken = 0 Then Return False
+
+		; Close the current process handle.
+		_WinAPI_CloseHandle($hProcess)
+
+		; Retrieves the LUID (locally unique identifier) which represents the SE_DEBUG privilege.
+		Local $iLUID = _Security__LookupPrivilegeValue("", $SE_DEBUG_NAME)
+		; If the function failed, return False.
+		If $iLUID = 0 Then Return False
+
+		; Create a struct containing the TOKEN_PRIVILEGES tag.
+		Local $tTOKENPRIV = DllStructCreate($tagTOKEN_PRIVILEGES)
+
+		; Fill the struct with the right infos.
+		DllStructSetData($tTOKENPRIV, "Count", 1)
+		DllStructSetData($tTOKENPRIV, "LUID", $iLUID, 1)
+		DllStructSetData($tTOKENPRIV, "Attributes", $SE_PRIVILEGE_ENABLED, 1)
+
+		; Now adjust the token privilege to enable the DEBUG privilege.
+		Local $fAdjust = _Security__AdjustTokenPrivileges($hToken, False, DllStructGetPtr($tTOKENPRIV), DllStructGetSize($tTOKENPRIV))
+		; If the function failed, return False.
+		If Not $fAdjust Then Return False
+
+		; Release the resources used by the structure.
+		$tTOKENPRIV = 0
+
+		Local $pData = _WinAPI_GetProcessMemoryInfo(ProcessExists($sProcess))
+
+		_WinAPI_CloseHandle($hToken)
+		
+		Return $pData
+	Else
+		Return False
 	EndIf
 EndFunc
