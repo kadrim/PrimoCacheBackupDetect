@@ -1,6 +1,6 @@
 #NoTrayIcon
 #RequireAdmin
-#AutoIt3Wrapper_Res_Fileversion=0.0.2.0
+#AutoIt3Wrapper_Res_Fileversion=0.0.3.0
 
 #include <AutoItConstants.au3>
 #include <TrayConstants.au3>
@@ -144,6 +144,7 @@ Func InstallTask()
 		'  <Triggers>' & @CRLF & _
 		'    <LogonTrigger>' & @CRLF & _
 		'      <Enabled>true</Enabled>' & @CRLF & _
+		'      <Delay>PT1M</Delay>' & @CRLF & _
 		'    </LogonTrigger>' & @CRLF & _
 		'  </Triggers>' & @CRLF & _
 		'  <Principals>' & @CRLF & _
