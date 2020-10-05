@@ -48,6 +48,11 @@ This will create a scheduled task which will start the Program each time you log
 Simpy click on the Icon in the systray and select **Remove Autostart**
 This will remove the previously created scheduled task.
 
+## Troubleshooting
+The most common Problems will be listed here.
+### The Application crashes as soon as the configured process is checked
+Check if you are affected by [issue #7](https://github.com/kadrim/PrimoCacheBackupDetect/issues/7). Simply download [version 0.0.3](https://github.com/kadrim/PrimoCacheBackupDetect/releases/tag/v0.0.3) and check if that works for you.
+
 ## Compiling
 Clone this repository and compile the Program using [AutoIt v3](https://www.autoitscript.com/site/)
 
