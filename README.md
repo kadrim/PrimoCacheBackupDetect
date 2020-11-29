@@ -57,7 +57,11 @@ Check if you are affected by [issue #7](https://github.com/kadrim/PrimoCacheBack
 Clone this repository and compile the Program using [AutoIt v3](https://www.autoitscript.com/site/)
 
 ## Donation
-I developed this package in my free time. If you like it and want to support future updates, feel free to [donate by clicking here](https://www.paypal.com/donate?hosted_button_id=RDJ8ZWG3GRWE8) Thanks in advance :-)
+I developed this package in my free time. If you like it and want to support future updates, feel free to donate here:
+
+[Donate via PayPal](https://www.paypal.com/donate?hosted_button_id=RDJ8ZWG3GRWE8)
+
+Thanks in advance :-)
 
 ## Disclaimer
 THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
